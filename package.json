@@ -1,6 +1,6 @@
 {
-  "name": "react-editor-hybrid",
-  "description": "Hybrid online WYSIWYG-editor on React.js",
+  "name": "react-editor-hybrid-demo",
+  "description": "React hybrid online WYSIWYG editor demo",
   "keywords": [
     "editor",
     "WYSIWYG",
@@ -10,14 +10,14 @@
   "license": "MIT",
   "type": "module",
   "version": "0.0.1",
-  "main": "app.js",
-  "homepage": "https://github.com/react-editor-hybrid#readme",
+  "main": "index.js",
+  "homepage": "https://github.com/react-editor-hybrid-demo#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/react-editor-hybrid.git"
+    "url": "git+https://github.com/react-editor-hybrid-demo.git"
   },
   "bugs": {
-    "url": "https://github.com/react-editor-hybrid/issues"
+    "url": "https://github.com/react-editor-hybrid-demo/issues"
   },
   "scripts": {
     "test": "jest",
