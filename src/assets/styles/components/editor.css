@@ -183,7 +183,7 @@ article {
 }
         }
         &.block-type-code {
-            & pre {
+            & pre { margin-top: 3em;
                 &.editable { padding: 1em; }
                 & code { padding: 1em; }
             }
