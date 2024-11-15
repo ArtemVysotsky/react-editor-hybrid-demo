@@ -64,7 +64,7 @@
       "id": 1731374145,
       "type": "code",
       "language": "javascript",
-      "text": "import React, { useEffect, useRef } from 'react'\n\nexport default props => {\n\n    const ref = useRef()\n\n    useEffect(() => {\n        if (!('text' in props)) ref.current.focus()\n    }, [ref.current])\n\n    return <h2 contentEditable=\"true\" suppressContentEditableWarning=\"true\"\n        onBlur={event => props.onChange('text', event.target.textContent)}\n        onKeyDown={props.onEnter} onPaste={props.onPaste}\n        className=\"editable\" ref={ref}>\n        {props.text}\n    </h2>\n}\n"
+      "text": "export default {\n    blocks: {\n        list: {\n            text: 'Текст', image: 'Зображення', header: 'Підзаголовок',\n            video: 'Відео', facebook: 'Фейсбук', twitter: 'Твіттер', map: 'Мапа',\n            table: 'Таблиця', list: 'Перелік', quote: 'Цитата', raw: 'Неформат',\n            address: 'Адреса', sound: 'Звук', code: 'Код', html: 'HTML'\n        },\n        limit: 7\n    },\n    highlight: {\n        languages: {\n            list: {\n                txt: 'Text', xml: 'XML', css: 'CSS', html: 'HTML', json: 'JSON',\n                yaml: 'YAML', cpp: 'C++', java: 'Java', python: 'Python',\n                javascript: 'JavaScript', typescript: 'TypeScript',\n                perl: 'Perl', php: 'PHP'\n            },\n            limit: 5\n        }\n    },\n    tinymce: 'https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.5.1/tinymce.min.js'\n}\n"
     }
   ]
 }
