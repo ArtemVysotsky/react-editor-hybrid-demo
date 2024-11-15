@@ -80,7 +80,8 @@ export default props => {
         ? <pre contentEditable="true" suppressContentEditableWarning="true"
             className="code editable" onBlur={handleChangeText} onPaste={props.onPaste}
             dangerouslySetInnerHTML={{ __html: props.text }} key="1" ref={ref} />
-        : <pre data-size={props?.size} onClick={() => setEditable(true)} key="2">
+        : <pre className="code" data-size={props?.size}
+            onClick={() => setEditable(true)} key="2">
             <code className="hljs" dangerouslySetInnerHTML={{ __html: text }} />
         </pre>
 }
