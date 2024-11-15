@@ -72,9 +72,10 @@ export default () => {
         // ...
     }
 
+    // For demo version only!!!
     useEffect(() => {
         (async () => {
-            const response = await fetch('/post.json')
+            const response = await fetch('post.json')
             if (response.status !== 200) {
                 throw Error(response.statusText)
             }

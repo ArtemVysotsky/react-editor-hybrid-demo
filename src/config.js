@@ -19,5 +19,5 @@ export default {
             limit: 5
         }
     },
-    tinymce: '/tinymce/tinymce.min.js'
+    tinymce: 'https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.5.1/tinymce.min.js'
 }
