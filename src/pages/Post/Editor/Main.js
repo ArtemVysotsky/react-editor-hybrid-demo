@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { Button } from 'react-bootstrap'
 import Field from '../../../components/Editor/Field.js'
 
-export default (props) => {
+export default props => {
 
     const ref = useRef()
 
