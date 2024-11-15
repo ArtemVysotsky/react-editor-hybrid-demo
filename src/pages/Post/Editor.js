@@ -76,6 +76,7 @@ export default () => {
     useEffect(() => {
         (async () => {
             const response = await fetch('post.json')
+            console.log(response)
             if (response.status !== 200) {
                 throw Error(response.statusText)
             }
