@@ -1,0 +1,70 @@
+{
+  "title": "Заголовок",
+  "date": "2024-10-08T23:48:25.119Z",
+  "image": {
+    "url": "/wysiwyg.jpg",
+    "source": "Джерело зображення",
+    "description": "Опис зображення"
+  },
+  "description": "За допомогою цього блока створюється вступ до статті який зазвичай одночасно використовується як опис HTML-сторінки.",
+  "blocks": [
+    {
+      "id": 1728432192,
+      "type": "header",
+      "text": "Підзаголовок"
+    },
+    {
+      "id": 1728432209,
+      "type": "text",
+      "text": "Текстовий блок статті містить звичайний текст у вигляді абзаців (параграфів). До цього та деяких інших блоках (<strong>Перелік</strong>, <strong>Таблиця</strong> тощо) інтегрований класичний WYSIWYG редактор <strong>TinyMCE</strong>. Завдяки йому стало можливим застосування до тексту стандартного форматування:&nbsp;<strong>жирний</strong>, <em>курсив</em>, <span style=\"text-decoration: underline;\">підкреслений</span>, <s>закреслений</s>, <sub>нижній</sub> та <sup>верхній</sup> регістр. Також в нього можна вставляти <a href=\"https://uk.wikipedia.org/wiki/%D0%9F%D0%BE%D1%81%D0%B8%D0%BB%D0%B0%D0%BD%D0%BD%D1%8F\" rel=\"nofollow\">посилання</a>, нерозривний<span>&nbsp;</span>пробіл, різноманітні спеціальні символи ($, &copy;, &frac12;)"
+    },
+    {
+      "id": 1731368763,
+      "type": "table",
+      "size": "full",
+      "text": "<table data-size=\"full\"><tbody><tr><td>Рядок 1 / Стовпчик 1</td><td>Рядок 1 / Стовпчик 2</td><td>Рядок 1 / Стовпчик 3</td></tr><tr><td>Рядок 2 / Стовпчик 1</td><td>Рядок 2 / Стовпчик 2</td><td>Рядок 2 / Стовпчик 3</td></tr><tr><td>Рядок 3 / Стовпчик 1</td><td>Рядок 3 / Стовпчик 2</td><td>Рядок 3 / Стовпчик 3</td></tr></tbody></table>"
+    },
+    {
+      "id": 1731368797,
+      "type": "list",
+      "size": "medium",
+      "order": false,
+      "text": "<li>перший рядок переліку</li>\n<li>другий рядок переліку</li>\n<li>третій рядок переліку</li>"
+    },
+    {
+      "id": 1731369818,
+      "type": "image",
+      "url": "https://images.pexels.com/photos/28348145/pexels-photo-28348145.jpeg",
+      "size": "full",
+      "author": "William Chen",
+      "source": "Pexels",
+      "title": "Приклад зображення"
+    },
+    {
+      "id": 1731369766,
+      "type": "image",
+      "url": [
+        "https://images.pexels.com/photos/29047306/pexels-photo-29047306.jpeg",
+        "https://images.pexels.com/photos/15076849/pexels-photo-15076849.jpeg",
+        "https://images.pexels.com/photos/15127809/pexels-photo-15127809.jpeg"
+      ],
+      "size": "small",
+      "title": "Приклад каруселі",
+      "source": "Pexels",
+      "author": "Alexis B"
+    },
+    {
+      "id": 1731678231,
+      "type": "video",
+      "size": "medium",
+      "url": "https://www.youtube.com/embed/GZ3zL7kT6_c?si=AkV7NY4S6E1oPtHY",
+      "ratio": 1.78
+    },
+    {
+      "id": 1731374145,
+      "type": "code",
+      "language": "javascript",
+      "text": "import React, { useEffect, useRef } from 'react'\n\nexport default props => {\n\n    const ref = useRef()\n\n    useEffect(() => {\n        if (!('text' in props)) ref.current.focus()\n    }, [ref.current])\n\n    return <h2 contentEditable=\"true\" suppressContentEditableWarning=\"true\"\n        onBlur={event => props.onChange('text', event.target.textContent)}\n        onKeyDown={props.onEnter} onPaste={props.onPaste}\n        className=\"editable\" ref={ref}>\n        {props.text}\n    </h2>\n}\n"
+    }
+  ]
+}
