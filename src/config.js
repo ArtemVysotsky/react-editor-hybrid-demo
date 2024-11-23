@@ -4,7 +4,7 @@ export default {
             text: 'Текст', image: 'Зображення', header: 'Підзаголовок',
             video: 'Відео', facebook: 'Фейсбук', twitter: 'Твіттер', map: 'Мапа',
             table: 'Таблиця', list: 'Перелік', quote: 'Цитата', raw: 'Неформат',
-            address: 'Адреса', sound: 'Звук', code: 'Код', html: 'HTML'
+            address: 'Адреса', sound: 'Звук', code: 'Код'/*, html: 'HTML'*/
         },
         limit: 7
     },
