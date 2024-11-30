@@ -4,12 +4,10 @@
 
 Стаття про редактор з детальним описом на [DOU](https://dou.ua/forums/topic/)
 
-React Editor Hybrid Demo — це інтерактивний редактор, побудований на React, який дозволяє демонструвати інтеграцію редакторів у веб-додатках.
-
 ## Особливості
-- Зручне редагування тексту.
-- Легка інтеграція з React.
-- Розширюваний функціонал.
+- Зручне редагування кожного елемента в окремому блоці
+- Використання класичного WYSIWYG-редактора [TinyMCE](https://www.tiny.cloud/)
+- Легко змінювати та розширювати функціонал
 
 ## Інструкція з використання
 
@@ -37,7 +35,9 @@ React Editor Hybrid Demo — це інтерактивний редактор, �
 ## Приклад використання
 ```jsx
 
-import Editor, { Reducer, actions} from '../../components/Editor.js'
+import Editor, {
+    Reducer, actions
+} from '../../components/Editor.js'
 import Main from './Editor/Main.js'
 
 function App() {
@@ -57,10 +57,19 @@ function App() {
         })()
     }, [])
 
-    return <article itemScope="itemscope" itemType="https://schema.org/Article">
-        <Main title={post.title} image={post.image} onChange={handleChange} />
-        <Editor blocks={{ state, dispatch, actions }} intro={post.description}
-            onChangeIntro={intro => handleChange('description', intro)} />
+    return <article
+        itemScope="itemscope"
+        itemType="https://schema.org/Article">
+        <Main
+            title={post.title}
+            image={post.image}
+            onChange={handleChange} />
+        <Editor
+            blocks={{ state, dispatch, actions }}
+            intro={post.description}
+            onChangeIntro={
+                intro => handleChange('description', intro)
+            } />
     </article>
 }
 ```
