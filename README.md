@@ -34,7 +34,9 @@
 
 ## Приклад використання
 ```jsx
-
+import React, {
+    useState, useEffect, useReducer
+} from 'react'
 import Editor, {
     Reducer, actions
 } from '../../components/Editor.js'
