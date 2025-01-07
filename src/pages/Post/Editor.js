@@ -28,10 +28,11 @@ export default () => {
     const handleChange = (name, value) => {
         console.log(name, value)
         let postNew
-        if (typeof value !== undefined) {
+        if (typeof value !== 'undefined') {
             postNew = objectSetValue(post, name, value )
         } else {
-            let { [name]: value, ...postNew } = post
+            postNew = { ...post }
+            delete postNew[name]
         }
         console.log(postNew)
         setPost(postNew)
@@ -97,9 +98,9 @@ export default () => {
         </article>
         <p className="text-center mt-5">
             <a className="btn btn-primary me-2" onClick={handleDownload}
-                title="Зберегти публікацію">Зберегти</a>
+                title="Зберегти публікацію" href="#">Зберегти</a>
             <a className="btn btn-danger" onClick={handleDelete}
-                title="Видалити публікацію">Видалити</a>
+                title="Видалити публікацію" href="#">Видалити</a>
         </p>
     </div>
 }

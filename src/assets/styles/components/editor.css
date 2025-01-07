@@ -1,5 +1,5 @@
 article {
-    font-size: calc(14px + 0.5vw) !important;
+    font-size: calc(14px + 0.25vw) !important;
     & div.block { border: solid 1px transparent;
         &:hover { border: dashed 1px #888 !important;
             .editable, .field, .form-control, .form-select {

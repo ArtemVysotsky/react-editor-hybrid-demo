@@ -81,8 +81,8 @@ export default (state = [], action) => {
             return blocks
         }
         case REMOVE: {
-            return state.filter(block => {
-                if (block.id !== action.payload.id){
+            return state.map(block => {
+                if (block.id !== action.payload.id) {
                     return block
                 }
                 if (typeof action.payload.name !== 'undefined') {
