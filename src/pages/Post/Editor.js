@@ -18,7 +18,7 @@ const objectSetValue = (data, name, value) => {
     return dataNew
 }
 
-export default () => {
+const PageEditor = () => {
 
     const [post, setPost] = useState({
         title: '', description: ''
@@ -39,7 +39,7 @@ export default () => {
     }
 
     // For demo version only!!!
-    const handleDownload = event => {
+    const handleDownload = () => {
         let postNew = { ...post }
         if (state?.length > 0) {
             postNew.blocks = state
@@ -50,30 +50,18 @@ export default () => {
         const json = JSON.stringify(postNew, null, 2);
         const blob = new Blob([json], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
-        event.target.setAttribute('download', 'post.json')
-        event.target.href = url
+        const link = document.createElement('a'); // Створення елемента посилання
+        link.download = 'post.json';
+        link.href = url;
+        link.click(); // Автоматичне кліання для завантаження
+        URL.revokeObjectURL(url); // Очистка URL після завантаження
     }
-
-    /*
-    const handleSubmit = async () => {
-        let postNew = { ...post }
-        if (state?.length > 0) {
-            postNew.blocks = state
-        } else {
-            delete postNew.blocks
-        }
-        setPost(postNew)
-        console.log('post.submit', postNew)
-        // ...
-    }
-    */
 
     const handleDelete = async () => {
         console.log('post.delete')
         // ...
     }
 
-    // For demo version only!!!
     useEffect(() => {
         (async () => {
             const response = await fetch('post.json')
@@ -104,3 +92,5 @@ export default () => {
         </p>
     </div>
 }
+
+export default PageEditor

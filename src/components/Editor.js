@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import PropTypes from 'prop-types'
 import Reducer, { actions } from '../reducers/Editor/Blocks.js'
 import Block from './Editor/Block.js'
 import Intro from './Editor/Intro.js'
@@ -15,23 +16,23 @@ for (const type of Object.keys(config.blocks.list)) {
     ).default
 }
 
-function Editor(props) {
+const Editor = ({ blocks, intro, onChangeIntro }) => {
 
     const handleInsert = (type, id) => {
-        props.blocks.dispatch(
-            props.blocks.actions.insert(id, type)
+        blocks.dispatch(
+            blocks.actions.insert(id, type)
         )
     }
 
     const handleMove = (direction, id) => {
-        props.blocks.dispatch(
-            props.blocks.actions.move(id, direction)
+        blocks.dispatch(
+            blocks.actions.move(id, direction)
         )
     }
 
     const handleRemove = (value = null, id) => {
-        props.blocks.dispatch(
-            props.blocks.actions.remove(id)
+        blocks.dispatch(
+            blocks.actions.remove(id, value)
         )
     }
 
@@ -71,15 +72,29 @@ function Editor(props) {
     }, [])
 
     return <>
-        <Block type="intro" text={props.intro} label={'Вступ'}
-            onChange={(name, value) => props.onChangeIntro(value)}
-            component={Intro} blocks={props.blocks} menu={menu} key={0} />
-        {props.blocks?.state && props.blocks.state.map(block =>
-            <Block {...props} {...block} 
+        <Block type="intro" text={intro} label={'Вступ'}
+            onChange={(name, value) => onChangeIntro(value)}
+            component={Intro} blocks={blocks} menu={menu} key={0} />
+        {blocks?.state && blocks.state.map(block =>
+            <Block {...block} blocks={blocks}
                 menu={menu} label={config.blocks.list[block.type]}
                 component={components[block.type]} key={block.id} />
         )}
     </>
+}
+
+Editor.propTypes = {
+    blocks: PropTypes.shape({
+        dispatch: PropTypes.func.isRequired,
+        actions: PropTypes.shape({
+            insert: PropTypes.func.isRequired,
+            move: PropTypes.func.isRequired,
+            remove: PropTypes.func.isRequired,
+        }).isRequired,
+        state: PropTypes.arrayOf(PropTypes.object),
+    }).isRequired,
+    intro: PropTypes.string.isRequired,
+    onChangeIntro: PropTypes.func.isRequired,
 }
 
 export { Editor as default, Reducer, actions }
