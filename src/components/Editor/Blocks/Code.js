@@ -1,23 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react'
 import hljs from 'highlight.js'
+import PropTypes from 'prop-types'
 import config from '../../../config.js'
 import 'highlight.js/styles/androidstudio.css'
 
-export default props => {
-
+const Code = ({ 
+    menu, language, text, size, onPaste, onChange 
+}) => {
     const ref = useRef()
-    const [text, setText] = useState()
+    const [textNew, setTextNew] = useState()
     const [editable, setEditable] = useState(false)
 
     const handleChangeText = event => {
-        props.onChange('text', event.target.textContent)
+        onChange('text', event.target.textContent)
         setEditable(false)
     }
 
     useEffect( () => {
-        if (!props?.text) setEditable(true)
-        if (!props?.language) {
-            props.onChange('language', 'auto')
+        if (!text) setEditable(true)
+        if (!language) {
+            onChange('language', 'auto')
         }
     }, [])
 
@@ -27,7 +29,7 @@ export default props => {
             submenu: {
                 auto: { label: 'Auto' }
             },
-            event: value => props.onChange('language', value)
+            event: value => onChange('language', value)
         }
         Object.entries(config.highlight.languages.list)
         .slice(0, config.highlight.languages.limit)
@@ -42,46 +44,63 @@ export default props => {
         .forEach(([key, label]) =>
             languages.submenu.other.submenu[key] = { label }
         )
-        props.menu.dispatch(
-            props.menu.actions.insert(
+        menu.dispatch(
+            menu.actions.insert(
                 'languages', languages
             )
         )
     }, [])
 
     useEffect( () => {
-        if (!('text' in props)) return
-        if (props.text.length) {
-            const text = props?.language === 'auto'
-                ? hljs.highlightAuto(props.text).value
-                : hljs.highlight(props.text, {
-                    language: props.language
+        if (typeof text === 'undefined' ) return
+        if (text.length) {
+            const textHighlighted = language === 'auto'
+                ? hljs.highlightAuto(text).value
+                : hljs.highlight(text, {
+                    language: language
                 }).value
-            setText(text)
+            setTextNew(textHighlighted)
         } else {
-            setText('')
+            setTextNew('')
         }
-    }, [props.text, props.language])
-
-    useEffect( () => {
-        if (!props?.language) return
-        props.menu.dispatch(
-            props.menu.actions.update(
-                'languages', { value: props.language }
-            )
-        )
-    }, [props.language])
+    }, [text, language])
 
     useEffect(() => {
-        if (!('text' in props) && editable) ref.current.focus()
+        menu.dispatch(
+            menu.actions.update(
+                'languages', { value: language }
+            )
+        )
+    }, [language])
+
+    useEffect(() => {
+        if (!('text' in { text }) && editable) ref.current.focus()
     }, [ref.current])
 
     return editable
         ? <pre contentEditable="true" suppressContentEditableWarning="true"
-            className="code editable" onBlur={handleChangeText} onPaste={props.onPaste}
-            dangerouslySetInnerHTML={{ __html: props.text }} key="1" ref={ref} />
-        : <pre className="code" data-size={props?.size}
+            className="code editable" onBlur={handleChangeText} onPaste={onPaste}
+            dangerouslySetInnerHTML={{ __html: text }} key="1" ref={ref} />
+        : <pre className="code" data-size={size}
             onClick={() => setEditable(true)} key="2">
-            <code className="hljs" dangerouslySetInnerHTML={{ __html: text }} />
+            <code className="hljs" dangerouslySetInnerHTML={{ __html: textNew }} />
         </pre>
 }
+
+Code.propTypes = {
+    size: PropTypes.string,
+    text: PropTypes.string,
+    language: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    onPaste: PropTypes.func,
+    menu: PropTypes.shape({
+        dispatch: PropTypes.func.isRequired,
+        actions: PropTypes.shape({
+            insert: PropTypes.func.isRequired,
+            update: PropTypes.func.isRequired
+        }).isRequired
+    }).isRequired
+}
+Code.displayName = 'Code'
+
+export default Code

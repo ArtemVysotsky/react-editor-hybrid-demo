@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { Form } from 'react-bootstrap'
 
-export default props => {
+const Sound = ({ url, width, height, size, menu, onChange }) => {
 
     const handleChange = async event => {
         const matches = event.target.value.match(
@@ -17,23 +18,23 @@ export default props => {
             width: parseInt(matches[1]),
             height: parseInt(matches[2])
         }
-        props.onChange(data)
+        onChange(data)
     }
 
     useEffect(() => {
-        props.menu.dispatch(
-            props.menu.actions.insert(
-                'resize', props.menu.resize
+        menu.dispatch(
+            menu.actions.insert(
+                'resize', menu.resize
             )
         )
-        if (!props?.size) {
-            props.onChange('size', 'small')
+        if (!size) {
+            onChange('size', 'small')
         }
     }, [])
 
-    return props?.url 
-        ? <iframe src={props.url} className="sound" data-size={props.size}
-            width={props?.width + '%'} height={props?.height} allowFullScreen={true}
+    return url 
+        ? <iframe src={url} className="sound" data-size={size}
+            width={width + '%'} height={height} allowFullScreen={true}
             allow="autoplay;clipboard-write;encrypted-media;picture-in-picture;web-share">
         </iframe>
         : <Form.Control as="textarea" title="HTML-код вкладення"
@@ -48,3 +49,22 @@ export default props => {
             }
         />
 }
+
+Sound.displayName = 'Sound'
+
+Sound.propTypes = {
+    url: PropTypes.string,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    size: PropTypes.string,
+    menu: PropTypes.shape({
+        dispatch: PropTypes.func.isRequired,
+        actions: PropTypes.shape({
+            insert: PropTypes.func.isRequired
+        }).isRequired,
+        resize: PropTypes.object
+    }).isRequired,
+    onChange: PropTypes.func.isRequired
+};
+
+export default Sound

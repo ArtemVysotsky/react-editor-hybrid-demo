@@ -1,5 +1,6 @@
-import React,  { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Editor } from '@tinymce/tinymce-react'
+import PropTypes from 'prop-types'
 import config from '../../config.js'
 
 const initTemplate = {
@@ -31,10 +32,13 @@ const initTemplate = {
     license_key: 'gpl'
 }
 
-export default props => {
+const EditorComponent = ({
+    class: className, onChange, setEditor, value, tag, title, plugins,
+    reset, toolbar, valid, newline, multiline, onEnter, callback
+}) => {
 
     const [init, setInit] = useState(false)
-    const [callbacks, setCallbacks] = useState([
+    const [callbacks] = useState([
         editor => {
             editor.on('init', () => {
                 const original = editor.windowManager.open
@@ -47,18 +51,18 @@ export default props => {
                     }
                     return original.apply(this, [dialog, params])
                 }
-                if (props?.setEditor) props.setEditor(editor)
+                if (setEditor) setEditor(editor)
                 editor.dom.addClass(editor.dom.getRoot(), 'editable')
-                if (props?.class) {
-                    props.class.split(' ').forEach(className => 
+                if (className) {
+                    className.split(' ').forEach(className => 
                         editor.dom.addClass(editor.dom.getRoot(), className)
                     )
                 }
-                if ((props?.class !== 'intro') && !props?.value) {
+                if ((className !== 'intro') && !value) {
                     editor.dom.getRoot().focus()
                 }
-                if (props?.title) {
-                    editor.dom.getRoot().setAttribute('title', props.title)
+                if (title) {
+                    editor.dom.getRoot().setAttribute('title', title)
                 }
             })
             editor.ui.registry.addButton('ndash', {
@@ -70,46 +74,46 @@ export default props => {
     ])
 
     const handleChange = (newValue, editor) => {
-        props.onChange(newValue, editor)
+        onChange(newValue, editor)
     }
 
     useEffect(() => {
         const initNew = structuredClone(initTemplate)
         const callbacksNew = [...callbacks]
-        if (props?.plugins) {
-            if (props?.reset) {
-                initNew.plugins = props.plugins
+        if (plugins) {
+            if (reset) {
+                initNew.plugins = plugins
             } else {
-                Array.isArray(props.plugins)
-                    ? initNew.plugins.push(...props.plugins)
-                    : initNew.plugins.push(props.plugins)
+                Array.isArray(plugins)
+                    ? initNew.plugins.push(...plugins)
+                    : initNew.plugins.push(plugins)
             }
         }
-        if (props?.toolbar) {
-            if (props?.reset) {
-                initNew.toolbar = props.toolbar
+        if (toolbar) {
+            if (reset) {
+                initNew.toolbar = toolbar
             } else {
-                initNew.toolbar += ' | ' + props.toolbar
+                initNew.toolbar += ' | ' + toolbar
             }
         }
-        if (props?.valid) {
-            initNew.valid_elements += ',' + (Array.isArray(props.valid)
-                ? props.valid.join() : props.valid)
+        if (valid) {
+            initNew.valid_elements += ',' + (Array.isArray(valid)
+                ? valid.join() : valid)
         }
-        if (props?.newline) {
-            initNew.newline_behavior = props.newline
+        if (newline) {
+            initNew.newline_behavior = newline
         }
-        if (!props?.multiline) {
+        if (!multiline) {
             callbacksNew.push(editor => {
                 editor.on('keydown', event => {
-                    if (props?.onEnter) {
-                        props.onEnter(event)
+                    if (onEnter) {
+                        onEnter(event)
                     }
                 })
             })
         }
-        if (props?.callback) {
-            callbacksNew.push(props.callback)
+        if (callback) {
+            callbacksNew.push(callback)
         }
         initNew.setup = editor => {
             callbacksNew.forEach(callback => callback(editor))
@@ -117,8 +121,33 @@ export default props => {
         setInit(initNew)
     }, [])
 
-    return init && <Editor tagName={props.tag ?? 'div'}
-        value={(typeof props.value !== 'undefined') ? props.value.toString() : ''}
+    return init && <Editor tagName={tag ?? 'div'}
+        value={(typeof value !== 'undefined') ? value.toString() : ''}
         init={init} inline={true} onEditorChange={handleChange}
-        tinymceScriptSrc={config.tinymce} key={props.tag} autoFocus />
+        tinymceScriptSrc={config.tinymce} key={tag} autoFocus />
 }
+
+EditorComponent.propTypes = {
+    class: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    setEditor: PropTypes.func,
+    value: PropTypes.string,
+    tag: PropTypes.string,
+    title: PropTypes.string,
+    plugins: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string)
+    ]),
+    reset: PropTypes.bool,
+    toolbar: PropTypes.string,
+    valid: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string)
+    ]),
+    newline: PropTypes.string,
+    multiline: PropTypes.bool,
+    onEnter: PropTypes.func,
+    callback: PropTypes.func
+};
+
+export default EditorComponent

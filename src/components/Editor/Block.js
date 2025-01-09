@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useMemo, useReducer } from 'react'
+import PropTypes from 'prop-types'
 import MenuReducer, { actions as menuActions } from '../../reducers/Editor/Menu.js'
 import Menu from './Menu.js'
 
-export default props => {
+const Block = props => {
 
     const [menuState, menuDispatch] = useReducer(MenuReducer, props.menu)
     const [isActive, setActive] = useState(false)
-    const { component, blocks, ...propsNew } = props
+    const propsNew = { ...props }
+    delete propsNew.component
+    delete propsNew.blocks
 
     const handleChange = (name, value) => {
         if (props?.onChange) {
@@ -85,3 +88,24 @@ export default props => {
         {isActive ? <Menu items={menuState} id={props.id} /> : null}
     </div>
 }
+
+Block.propTypes = {
+    menu: PropTypes.object.isRequired,
+    component: PropTypes.elementType.isRequired,
+    blocks: PropTypes.shape({
+        dispatch: PropTypes.func.isRequired,
+        actions: PropTypes.shape({
+            remove: PropTypes.func.isRequired,
+            merge: PropTypes.func.isRequired,
+            update: PropTypes.func.isRequired,
+            insert: PropTypes.func.isRequired,
+        }).isRequired,
+    }).isRequired,
+    onChange: PropTypes.func,
+    id: PropTypes.number,
+    size: PropTypes.string,
+    type: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+};
+
+export default Block;

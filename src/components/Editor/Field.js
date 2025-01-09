@@ -1,33 +1,46 @@
 import React, { useEffect, useRef } from 'react'
+import PropTypes from 'prop-types'
 
-export default props => {
+const Field = ({ 
+    as = 'div', name, value, className, onChange, autoFocus, ...rest
+}) => {
 
-    const { as, name, value, className, ...propsNew } = { ...props }
     const ref = useRef(null)
 
     const handleChange = event => {
-        props.onChange(props.name, event.target.textContent.length
-            ? event.target.textContent : undefined)
-        ref.current.scrollLeft = 0
+        onChange(name, event.target.textContent.length ? event.target.textContent : undefined)
     }
 
     useEffect(() => {
-        if (props?.autoFocus && !props?.value) {
+        if (autoFocus && !value) {
             ref.current.focus()
         }
     }, [ref.current])
 
     return React.createElement(
-        props.as ?? 'div', {
+        as, {
             contentEditable: "true",
             suppressContentEditableWarning: "true",
-            className: 'editable ' + (props.className ?? props.name),
+            className: 'editable ' + (className ?? name),
             onBlur: handleChange,
             onKeyDown: event => {
                 if (event.key === 'Enter') event.preventDefault()
             },
             ref,
-            ...propsNew
-        }, props.value
+            ...rest
+        }, value
     )
+}    
+
+Field.propTypes = {
+    as: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    value: PropTypes.string,
+    className: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    autoFocus: PropTypes.bool
 }
+
+Field.displayName = 'Field'
+
+export default Field

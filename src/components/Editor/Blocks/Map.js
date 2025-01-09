@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { Form } from 'react-bootstrap'
 
-export default props => {
+const Map = ({ url, size, menu, onChange }) => {
 
     const handleChange = async event => {
         const marches = event.target.value.match(/src="([^"]+)"/)
@@ -10,22 +11,22 @@ export default props => {
                 'Невідомий формат HTML-коду вкладення'
             )
         }
-        props.onChange('url', marches[1])
+        onChange('url', marches[1])
     }
 
-    useEffect( () => {
-        props.menu.dispatch(
-            props.menu.actions.insert(
-                'resize', props.menu.resize
+    useEffect(() => {
+        menu.dispatch(
+            menu.actions.insert(
+                'resize', menu.resize
             )
         )
-        if (!props?.size) {
-            props.onChange('size', 'large')
+        if (!size) {
+            onChange('size', 'large')
         }
     }, [])
 
-    return props?.url 
-        ? <iframe src={props.url} data-size={props.size} className="map"
+    return url 
+        ? <iframe src={url} data-size={size} className="map"
             title="Google Map" allowFullScreen={true} loading="lazy"
             referrerPolicy="no-referrer-when-downgrade">
         </iframe>
@@ -46,3 +47,20 @@ export default props => {
             }
         />
 }
+
+Map.displayName = 'Map'
+
+Map.propTypes = {
+    url: PropTypes.string,
+    size: PropTypes.string,
+    menu: PropTypes.shape({
+        dispatch: PropTypes.func.isRequired,
+        actions: PropTypes.shape({
+            insert: PropTypes.func.isRequired
+        }).isRequired,
+        resize: PropTypes.object
+    }).isRequired,
+    onChange: PropTypes.func.isRequired
+}
+
+export default Map

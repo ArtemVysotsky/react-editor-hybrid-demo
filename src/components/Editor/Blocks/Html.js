@@ -1,8 +1,25 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Editor from '../Editor.js'
 
-export default props => {
-
-    return <Editor tag="article" value={props?.code} class="html" valid="*[*]" multiline
-        onChange={value => props.onChange('code', value)} />
+const Html = ({ code, onChange }) => {
+    return (
+        <Editor
+            tag="article"
+            value={code}
+            className="html"
+            valid="*[*]"
+            multiline
+            onChange={value => onChange('code', value)}
+        />
+    )
 }
+
+Html.displayName = 'Html'
+
+Html.propTypes = {
+    code: PropTypes.string,
+    onChange: PropTypes.func.isRequired
+}
+
+export default Html

@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import Editor from '../Editor.js'
 
-export default props => {
+const List = ({ menu, size, order, text, onChange }) => {
 
     const [editor, setEditor] = useState()
 
     useEffect(() => {
-        props.menu.dispatch(
-            props.menu.actions.insert(
-                'resize', props.menu.resize
+        menu.dispatch(
+            menu.actions.insert(
+                'resize', menu.resize
             )
         )
-        if (!props?.size) props.onChange('size', 'medium')
+        if (!size) onChange('size', 'medium')
     }, [])
 
     useEffect(() => {
-        props.menu.dispatch(
-            props.menu.actions.insert(
+        menu.dispatch(
+            menu.actions.insert(
                 'order', {
                     value: false, label: 'Сортування', variant: 'secondary',
-                    event: value => props.onChange('order', value),
+                    event: value => onChange('order', value),
                     submenu: {
                         numered: { label: 'Нумероване', value: true },
                         arbitrary: { label: 'Довільне', value: false }
@@ -27,24 +28,54 @@ export default props => {
                 }
             )
         )
-        if (!props?.order) props.onChange('order', false)
+        if (!order) onChange('order', false)
     }, [])
 
     useEffect(() => {
         if (!editor) return
-        editor.getBody().dataset.size = props.size
-    }, [editor, props.size])
+        const body = editor.getBody()
+        if (!body) return
+        body.dataset.size = size
+    }, [editor, size])
 
     useEffect(() => {
-        if (!('order' in props)) return
-        props.menu.dispatch(
-            props.menu.actions.update('order', {
-                value: props.order
+        if (!order) return
+        menu.dispatch(
+            menu.actions.update('order', {
+                value: order
             })
         )
-    }, [props.order])
+    }, [order])
 
-    return <Editor tag={props?.order ? 'ol' : 'ul'} value={props?.text} plugins="lists"
-        valid="li" multiline={true} size={props.size} setEditor={setEditor}
-        onChange={value => props.onChange('text', value)} />
+    return (
+        <Editor
+            tag={order ? 'ol' : 'ul'}
+            value={text}
+            plugins="lists"
+            valid="li"
+            multiline={true}
+            size={size}
+            setEditor={setEditor}
+            onChange={value => onChange('text', value)}
+        />
+    )
 }
+
+List.propTypes = {
+    menu: PropTypes.shape({
+        dispatch: PropTypes.func.isRequired,
+        actions: PropTypes.shape({
+            insert: PropTypes.func.isRequired,
+            update: PropTypes.func.isRequired
+        }).isRequired,
+        resize: PropTypes.object
+    }).isRequired,
+    size: PropTypes.string,
+    order: PropTypes.bool,
+    text: PropTypes.string,
+    onChange: PropTypes.func.isRequired
+}
+
+List.displayName = 'List'
+
+export default List

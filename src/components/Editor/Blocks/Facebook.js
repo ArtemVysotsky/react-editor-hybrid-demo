@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Form } from 'react-bootstrap'
 
-export default props => {
+const Facebook = ({ url, width, height, onChange }) => {
 
     const handleChange = async event => {
         const matches = event.target.value.match(
@@ -17,23 +18,25 @@ export default props => {
             width: parseInt(matches[2]),
             height: parseInt(matches[3])
         }
-        props.onChange(data)
+        onChange(data)
     }
 
-    return props?.url 
-        ? <iframe src={props.url} className="facebook"
-            width={props?.width} height={props?.height} allowFullScreen={true}
+    return url 
+        ? <iframe src={url} className="facebook"
+            width={width} height={height} allowFullScreen={true}
             allow="autoplay;clipboard-write;encrypted-media;picture-in-picture;web-share">
         </iframe>
         : <Form.Control as="textarea" title="HTML-код вкладення"
-            onChange={handleChange} autoFocus placeholder={
-                '<iframe src="https://www.facebook.com/plugins/post.php?href='
-                + 'https%3A%2F%2Fwww.facebook.com%2Funiversemagazinecom%2Fposts%2F'
-                + 'pfbid02o95aZCpTWn8LeD2rsbkBxcV19N7t3coBobawrpYJD6AXC5rcPQb1RMFBPRm71efzl'
-                + '&show_text=true&width=500" width="500" height="653" scrolling="no"'
-                + ' style="border:none;overflow:hidden" frameborder="0" allowfullscreen="true"'
-                + ' allow="autoplay;clipboard-write;encrypted-media;picture-in-picture;web-share"'
-                + '></iframe>'
-            }
-        />
+            onChange={handleChange} autoFocus />
 }
+
+Facebook.displayName = 'Facebook'
+
+Facebook.propTypes = {
+    url: PropTypes.string,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    onChange: PropTypes.func.isRequired
+}
+
+export default Facebook

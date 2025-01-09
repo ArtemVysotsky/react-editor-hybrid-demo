@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { Form } from 'react-bootstrap'
 
-export default props => {
+const Video = ({ url, ratio, size, menu, onChange }) => {
 
     const handleChange = async event => {
         const matches = event.target.value.match(
@@ -16,22 +17,20 @@ export default props => {
             (parseInt(matches[1]) / parseInt(matches[2])) * 100
         ) / 100
         const data = { url: matches[3], ratio: ratio }
-        props.onChange(data)
+        onChange(data)
     }
 
-    useEffect( () => {
-        props.menu.dispatch(
-            props.menu.actions.insert(
-                'resize', props.menu.resize
+    useEffect(() => {
+        menu.dispatch(
+            menu.actions.insert(
+                'resize', menu.resize
             )
         )
-        if (!props?.size) {
-            props.onChange('size', 'small')
-        }
+        if (!size) onChange('size', 'small')
     }, [])
 
-    return props?.url 
-        ? <iframe src={props.url} data-size={props.size} data-ratio={props.ratio}
+    return url 
+        ? <iframe src={url} data-size={size} data-ratio={ratio}
             allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
             allowFullScreen title="YouTube video player" className="video">
         </iframe>
@@ -45,3 +44,21 @@ export default props => {
             } autoFocus
         />
 }
+
+Video.displayName = 'Video'
+
+Video.propTypes = {
+    url: PropTypes.string,
+    ratio: PropTypes.number,
+    size: PropTypes.string,
+    menu: PropTypes.shape({
+        dispatch: PropTypes.func.isRequired,
+        actions: PropTypes.shape({
+            insert: PropTypes.func.isRequired
+        }).isRequired,
+        resize: PropTypes.object
+    }).isRequired,
+    onChange: PropTypes.func.isRequired
+}
+
+export default Video

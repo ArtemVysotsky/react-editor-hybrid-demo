@@ -1,16 +1,27 @@
 import React, { useEffect, useRef } from 'react'
+import PropTypes from 'prop-types'
 
-export default props => {
+const Raw = ({ text, onChange, onPaste }) => {
 
     const ref = useRef()
 
     useEffect(() => {
-        if (!('text' in props)) ref.current.focus()
-    }, [ref.current])
+        if (!text) ref.current.focus()
+    }, [])
 
     return <pre contentEditable="true" suppressContentEditableWarning="true"
-        onBlur={event => props.onChange('text', event.target.textContent)}
-        onPaste={props.onPaste} className="editable" ref={ref}>
-        {props.text}
+        onBlur={event => onChange('text', event.target.textContent)}
+        onPaste={onPaste} className="editable" ref={ref}>
+        {text}
     </pre>
 }
+
+Raw.displayName = 'Raw'
+
+Raw.propTypes = {
+    text: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    onPaste: PropTypes.func
+}
+
+export default Raw

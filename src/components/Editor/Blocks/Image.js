@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { Form, Button, Carousel, Row, Col } from 'react-bootstrap'
 import Field from '../Field.js'
 
 const Edit = props => {
-
     const [urls, setUrls] = useState([''])
 
     const handleInsert = () => {
@@ -57,8 +57,13 @@ const Edit = props => {
     </div>
 }
 
-const View = props => {
+Edit.displayName = 'Edit'
 
+Edit.propTypes = {
+    onChange: PropTypes.func.isRequired
+}
+
+const View = props => {
     return <figure onPaste={props.onPaste}>
         <div className="image" data-size={props.size}>
             {Array.isArray(props.url)
@@ -85,8 +90,22 @@ const View = props => {
     </figure>
 }
 
-export default props => {
+View.displayName = 'View'
 
+View.propTypes = {
+    url: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string)
+    ]).isRequired,
+    size: PropTypes.string,
+    title: PropTypes.string,
+    source: PropTypes.string,
+    author: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    onPaste: PropTypes.func
+}
+
+const Image = props => {
     useEffect(() => {
         if (!props?.url) return
         props.menu.dispatch(
@@ -97,3 +116,23 @@ export default props => {
 
     return props?.url ? <View {...props} /> : <Edit {...props}/>
 }
+
+Image.displayName = 'Image'
+
+Image.propTypes = {
+    url: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string)
+    ]),
+    size: PropTypes.string,
+    menu: PropTypes.shape({
+        dispatch: PropTypes.func.isRequired,
+        actions: PropTypes.shape({
+            insert: PropTypes.func.isRequired
+        }).isRequired,
+        resize: PropTypes.object
+    }).isRequired,
+    onChange: PropTypes.func.isRequired
+}
+
+export default Image
