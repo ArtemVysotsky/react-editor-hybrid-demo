@@ -2,7 +2,7 @@
 
 [Демо-версія](https://artemvysotsky.github.io/react-editor-hybrid-demo/) гібридного онлайн WYSIWYG-редактора для React
 
-Стаття про редактор з детальним описом на [DOU](https://dou.ua/forums/topic/)
+Стаття про редактор з детальним описом на [DOU](https://dou.ua/forums/topic/51974/)
 
 ## Особливості
 - Зручне редагування кожного елемента в окремому блоці
