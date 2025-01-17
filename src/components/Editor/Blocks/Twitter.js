@@ -13,26 +13,26 @@ const Twitter = ({ url, text, author, date, onChange }) => {
             /(https:\/\/(x|twitter)\.com\/[^/]+\/status\/\d+)\??/
         )
         if (!url) {
-            return alert('Неможу визначити посилання')
+            return alert('Не можу визначити посилання')
         }
         data.url = url[1]
         const text = value.match(/<p[^>]*>(.*)<\/p>/)
         if (text) {
             data.text = text[1].trim()
         } else {
-            alert('Неможу визначити текст')
+            alert('Не можу визначити текст')
         }
         const author = value.match(/&mdash; (.*) \(@([^)]+)\)/)
         if (author) {
             data.author = { name: author[1], login: author[2] }
         } else {
-            alert('Неможу визначити автора')
+            alert('Не можу визначити автора')
         }
         const date = value.match(/<p.*>.*<\/p>.*<a.*>(.*)<\/a>/)
         if (date) {
             data.date =  new Date(date[1]).toISOString().slice(0, 10)
         } else {
-            alert('Неможу визначити дату')
+            alert('Не можу визначити дату')
         }
         onChange(data)
     }
@@ -41,7 +41,7 @@ const Twitter = ({ url, text, author, date, onChange }) => {
         if (!ref?.current) return
         // eslint-disable-next-line no-undef
         twttr.widgets.load(ref.current)
-    }, [ref])
+    }, [ref.current])
 
     return url
         ? <blockquote className="twitter-tweet" ref={ref}>
