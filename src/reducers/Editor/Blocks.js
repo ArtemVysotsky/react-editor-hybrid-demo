@@ -64,28 +64,32 @@ export default (state = [], action) => {
             })
         }
         case MOVE: {
-            const blocks = state.map(block => ({ ...block }))
-            for(let [index, { ...block }] of Object.entries(blocks)) {
-                if (block.id === parseInt(action.payload.id)) {
-                    index = parseInt(index)
-                    blocks.splice(index, 1)
-                    switch (action.payload.direction) {
-                        case 'first': blocks.splice(1, 0, block); break
-                        case 'last': blocks.push(block); break
-                        case 'up': blocks.splice(index - 1, 0, block); break
-                        case 'down': blocks.splice(index + 1, 0, block); break
-                    }
+            const blocks = [...state]
+            const index = blocks.findIndex(block => block.id === action.payload.id)
+            if (index === -1) return state
+            const [block] = blocks.splice(index, 1)
+            switch (action.payload.direction) {
+                case 'first':
+                    blocks.unshift(block)
                     break
-                }
+                case 'last':
+                    blocks.push(block)
+                    break
+                case 'up':
+                    blocks.splice(Math.max(0, index - 1), 0, block)
+                    break
+                case 'down':
+                    blocks.splice(Math.min(blocks.length, index + 1), 0, block)
+                    break
+                default:
+                    blocks.splice(index, 0, block)
             }
             return blocks
         }
         case REMOVE: {
-            return state.map(block => {
-                if (block.id !== action.payload.id) {
-                    return block
-                }
-                if (typeof action.payload.name !== 'undefined') {
+            if (typeof action.payload.name !== 'undefined') {
+                return state.map(block => {
+                    if (block.id !== action.payload.id) return block
                     const names = action.payload.name.split('.')
                     const last = names.length - 1
                     names.reduce((branch, name, index) => {
@@ -96,8 +100,12 @@ export default (state = [], action) => {
                         }
                     }, block)
                     return block
-                }
-            })
+                })
+            } else {
+                return state.filter(block => 
+                    block.id !== action.payload.id
+                )
+            }
         }
         default: {
             throw new Error('Unknown block type')
