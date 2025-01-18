@@ -44,7 +44,7 @@ article {
                     }
                     & div.body {
                         h1 { min-width: 350px;
-                            &:empty::before { content: 'Заголовок'; }
+                            &:empty::before { content: 'Заголовок ...'; }
                         }
                         
                     }
@@ -95,14 +95,14 @@ article {
         }
         &.block-type-header {
             & h2 {  margin: 2em auto 0;
-                &:empty::before { content: 'Заголовок'; }
+                &:empty::before { content: 'Заголовок ...'; }
             }
         }
         &.block-type-image {
             & figure {
                 & figcaption { padding: 8px 5px;
                     &:empty::before { color: #000; 
-                        content: 'Чиновник на лаві підсудних за корупцію';
+                        content: 'Підпис до зображення ...';
                     }
                 }
                 & div.copyright {
