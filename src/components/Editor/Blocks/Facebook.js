@@ -27,7 +27,14 @@ const Facebook = ({ url, width, height, onChange }) => {
             allow="autoplay;clipboard-write;encrypted-media;picture-in-picture;web-share">
         </iframe>
         : <Form.Control as="textarea" title="HTML-код вкладення"
-            onChange={handleChange} autoFocus />
+            onChange={handleChange} autoFocus placeholder={
+                '<iframe src="https://www.facebook.com/plugins/video.php?height=314'
+                + '&href=https%3A%2F%2Fwww.facebook.com%2FBostonDynamicsOfficial%2F'
+                + 'videos%2F1119847332589252%2F&show_text=false&width=560&t=0"'
+                + 'width="560" height="314" allowFullScreen="true" scrolling="no" frameborder="0"'
+                + 'allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"'
+                + 'style="border:none;overflow:hidden"></iframe>'
+            } />
 }
 
 Facebook.displayName = 'Facebook'
