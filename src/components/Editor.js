@@ -30,9 +30,9 @@ const Editor = ({ blocks, intro, onChangeIntro }) => {
         )
     }
 
-    const handleRemove = (value = null, id) => {
+    const handleRemove = (_value = null, id) => {
         blocks.dispatch(
-            blocks.actions.remove(id, value)
+            blocks.actions.remove(id)
         )
     }
 
@@ -73,7 +73,7 @@ const Editor = ({ blocks, intro, onChangeIntro }) => {
 
     return <>
         <Block type="intro" text={intro} label={'Вступ'}
-            onChange={(name, value) => onChangeIntro(value)}
+            onChange={(_name, value) => onChangeIntro(value)}
             component={Intro} blocks={blocks} menu={menu} key={0} />
         {blocks?.state && blocks.state.map(block =>
             <Block {...block} blocks={blocks}
