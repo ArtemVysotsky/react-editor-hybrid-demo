@@ -113,6 +113,24 @@
       "ratio": 1.78
     },
     {
+      "id": 1737145701,
+      "type": "header",
+      "text": "Звук"
+    },
+    {
+      "id": 1737145710,
+      "type": "text",
+      "text": "Блок <strong>\"Звук\"</strong> вставляє віджет програвання аудіо зі сайту <a href=\"https://soundcloud.com/\" title=\"Sound Cloud\" rel=\"nofollow\">SoundCloud</a> за його HTML-кодом вставки з можливістю вибору максимальної ширини блоку."
+    },
+    {
+      "id": 1737145689,
+      "type": "sound",
+      "size": "small",
+      "url": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/237603952&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true",
+      "width": 100,
+      "height": 300
+    },
+    {
       "id": 1732232668,
       "type": "header",
       "text": "Фейсбук"
