@@ -7,14 +7,47 @@ const objectSetValue = (data, name, value) => {
     const keys = name.split('.')
     const dataNew = { ...data }
     let current = dataNew
+    const parents = []
+
     keys.forEach((key, index) => {
-      if (index === keys.length - 1) {
-        current[key] = value
-      } else {
-        current[key] = current[key] || {}
-        current = current[key]
-      }
+        const isLast = index === keys.length - 1
+
+        if (isLast) {
+            if (typeof value === 'undefined') {
+                delete current[key]
+            } else {
+                current[key] = value
+            }
+            return
+        }
+
+        const next = current[key] && typeof current[key] === 'object'
+            ? Array.isArray(current[key])
+                ? [ ...current[key] ]
+                : { ...current[key] }
+            : {}
+
+        current[key] = next
+        parents.push({ parent: current, key })
+        current = next
     })
+
+    if (typeof value === 'undefined') {
+        for (let index = parents.length - 1; index >= 0; index--) {
+            const { parent, key } = parents[index]
+            const branch = parent[key]
+
+            if (branch && typeof branch === 'object' && !Array.isArray(branch)
+                && Object.keys(branch).length === 0) {
+                delete parent[key]
+            } else if (Array.isArray(branch) && branch.length === 0) {
+                delete parent[key]
+            } else {
+                break
+            }
+        }
+    }
+
     return dataNew
 }
 
@@ -27,13 +60,7 @@ const PageEditor = () => {
 
     const handleChange = (name, value) => {
         console.log(name, value)
-        let postNew
-        if (typeof value !== 'undefined') {
-            postNew = objectSetValue(post, name, value )
-        } else {
-            postNew = { ...post }
-            delete postNew[name]
-        }
+        const postNew = objectSetValue(post, name, value)
         console.log(postNew)
         setPost(postNew)
     }

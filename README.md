@@ -33,8 +33,8 @@
 
    ```bash
    cd dist
-   ln -s ../node_modules/tinymce tinymce
-   ln -s ../node_modules/highlight.js highlight.js
+   ln -s ../node_modules/tinymce
+   ln -s ../node_modules/highlight.js
    ```
 
 5. Запустіть проєкт:
