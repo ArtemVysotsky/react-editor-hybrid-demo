@@ -1,4 +1,4 @@
 .git
-dist/highlight
-dist/tinymce2
+dist/highlight/*
+dist/tinymce/*
 node_modules

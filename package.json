@@ -27,7 +27,7 @@
   "dependencies": {
     "@tinymce/tinymce-react": "^5.1.1",
     "bootstrap": "^5.3.3",
-    "react-highlight": "^0.15.0",
+    "highlight.js": "^11.11.1",
     "tinymce": "^7.5.1"
   },
   "devDependencies": {

@@ -18,16 +18,27 @@
    ```
 
 2. Перейдіть у папку проєкту:
+
    ```bash
    cd react-editor-hybrid-demo
    ```
 
 3. Встановіть залежності:
+
    ```bash
    npm install
    ```
 
-4. Запустіть проєкт:
+4. Створіть символічні посилання для 2 теки
+
+   ```bash
+   cd dist
+   ln -s ../node_modules/tinymce tinymce
+   ln -s ../node_modules/highlight.js highlight.js
+   ```
+
+5. Запустіть проєкт:
+
    ```bash 
    npm start
    ```
