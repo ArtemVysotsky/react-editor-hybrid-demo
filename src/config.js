@@ -20,4 +20,4 @@ export default {
         }
     },
     tinymce: 'https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.5.1/tinymce.min.js'
-}
+};

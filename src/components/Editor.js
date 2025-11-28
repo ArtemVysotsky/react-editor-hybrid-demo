@@ -1,40 +1,34 @@
-import React, { useMemo } from 'react'
-import PropTypes from 'prop-types'
-import Reducer, { actions } from '../reducers/Editor/Blocks.js'
-import Block from './Editor/Block.js'
-import Intro from './Editor/Intro.js'
-import config from '../config.js'
-import '../assets/styles/components/editor.css'
+import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
+import Reducer, { actions } from '../reducers/Editor/Blocks.js';
+import Block from './Editor/Block.js';
+import Intro from './Editor/Intro.js';
+import config from '../config.js';
+import '../assets/styles/components/editor.css';
 
-const components = {}
+const components = {};
 
 for (const type of Object.keys(config.blocks.list)) {
     components[type] = (
         await import(/* webpackMode: "eager" */
             './Editor/Blocks/' + type[0].toUpperCase() + type.slice(1) + '.js'
         )
-    ).default
+    ).default;
 }
 
 const Editor = ({ blocks, intro, onChangeIntro }) => {
 
     const handleInsert = (type, id) => {
-        blocks.dispatch(
-            blocks.actions.insert(id, type)
-        )
-    }
+        blocks.dispatch(blocks.actions.insert(id, type));
+    };
 
     const handleMove = (direction, id) => {
-        blocks.dispatch(
-            blocks.actions.move(id, direction)
-        )
-    }
+        blocks.dispatch(blocks.actions.move(id, direction));
+    };
 
     const handleRemove = (_value = null, id) => {
-        blocks.dispatch(
-            blocks.actions.remove(id)
-        )
-    }
+        blocks.dispatch(blocks.actions.remove(id));
+    };
 
     const menu = useMemo(() => {
         const menu = {
@@ -54,22 +48,22 @@ const Editor = ({ blocks, intro, onChangeIntro }) => {
             remove: {
                 event: handleRemove, label: 'Видалити', variant: 'danger',
             }
-        }
+        };
         Object.entries(config.blocks.list)
         .slice(0, config.blocks.limit)
         .forEach(([type, label]) =>
             menu.insert.submenu[type] = { label }
-        )
+        );
         menu.insert.submenu.other = {
             label: 'Інші', divider: true, submenu: {}
-        }
+        };
         Object.entries(config.blocks.list)
         .slice(config.blocks.limit)
         .forEach(([type, label]) =>
             menu.insert.submenu.other.submenu[type] = { label }
-        )
-        return menu
-    }, [])
+        );
+        return menu;
+    }, []);
 
     return <>
         <Block type="intro" text={intro} label={'Вступ'}
@@ -80,8 +74,8 @@ const Editor = ({ blocks, intro, onChangeIntro }) => {
                 menu={menu} label={config.blocks.list[block.type]}
                 component={components[block.type]} key={block.id} />
         )}
-    </>
-}
+    </>;
+};
 
 Editor.propTypes = {
     blocks: PropTypes.shape({
@@ -95,6 +89,6 @@ Editor.propTypes = {
     }).isRequired,
     intro: PropTypes.string.isRequired,
     onChangeIntro: PropTypes.func.isRequired,
-}
+};
 
-export { Editor as default, Reducer, actions }
+export { Editor as default, Reducer, actions };
