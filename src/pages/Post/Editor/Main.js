@@ -1,22 +1,22 @@
-import React, { useEffect, useRef } from 'react'
-import PropTypes from 'prop-types'
-import { Button } from 'react-bootstrap'
-import Field from '../../../components/Editor/Field.js'
+import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { Button } from 'react-bootstrap';
+import Field from '../../../components/Editor/Field.js';
 
 const Main = ({ image, title, onChange, onPaste }) => {
 
-    const ref = useRef()
+    const ref = useRef();
 
     // For demo version only!!!
     const handleChangeImage = () => {
         const result = prompt(
             'Вставте посилання на зображення',
             image?.url
-        )
-        onChange('image.url', result)
-    }
+        );
+        onChange('image.url', result);
+    };
 
-    useEffect(() => ref.current.focus(), [ref.current])
+    useEffect(() => ref.current.focus(), [ref.current]);
 
     return <div className="block block-type-main">
             <div className={'main' + (image?.url ? ' image' : '')}
@@ -52,8 +52,8 @@ const Main = ({ image, title, onChange, onPaste }) => {
                     onChange={(name, value) => onChange(name, value)} />
             </div>
         </div>
-    </div>
-}
+    </div>;
+};
 
 Main.propTypes = {
     image: PropTypes.shape({
@@ -64,6 +64,6 @@ Main.propTypes = {
     title: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     onPaste: PropTypes.func
-}
-    
-export default Main
+};
+
+export default Main;
