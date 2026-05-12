@@ -24,6 +24,9 @@
     "start": "webpack --mode development",
     "build": "webpack --mode production"
   },
+  "engines": {
+    "node": ">=22 <23"
+  },
   "dependencies": {
     "@tinymce/tinymce-react": "^5.1.1",
     "bootstrap": "^5.3.3",
